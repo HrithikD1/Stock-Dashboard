@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title> Table </title>			
+	</head>
+	<body style="background-color: black; color: white;">
+		<div align="center">
+			<table>
+				<h1 style="color: blanchedalmond;">
+				<!--Displaying the converted table-->
+					{% for table in tables %}
+					<h2 style='color:aquamarine'>{{titles[loop.index]}}</h2>							
+					{{ table|safe }}
+					{% endfor %}	
+				</h1>
+			</table>
+		</div>
+	</body>
+</html>
