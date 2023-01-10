@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 from datetime import date
-import plotly.express as plt
+
 
 DATE_COLUMN = 'Close'
 
