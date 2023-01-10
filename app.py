@@ -22,7 +22,7 @@ data = load_data(DATA_URL)
 
 st.header("Stock Dashboard")
 
-st.subheader("Tata Steel Share Price (NSE:TATASTEEL)")
+st.subheader("Tata Steel Share Price")
 
 if st.checkbox('Show raw data for the stock above'):
     st.subheader('Raw data')
@@ -35,7 +35,7 @@ stock2 = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTYPBJFDhp
 
 data1 = load_data("https://docs.google.com/spreadsheets/d/e/2PACX-1vTYPBJFDhpUt73QjL3zi4CABWDbdBYUjA-e7Q8IB61pDHAh4bo32GC3TKFUl_q2AIaSUQtP4bae2zkO/pub?output=csv")
 
-st.subheader("Reliance Power (NSE:RPOWER)")
+st.subheader("Reliance Power")
 
 if st.checkbox('Show raw data'):
     st.subheader('Raw data')
