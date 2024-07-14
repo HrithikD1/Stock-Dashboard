@@ -1,45 +1,44 @@
 import pandas as pd
 import streamlit as st
-from datetime import date
 
+# URL of the Google Sheets CSV data
+DATA_URL = "https://docs.google.com/spreadsheets/d/1keb0D3P9V0xNJXHKBvvuIwmXBQO2AU1c5uV82W-WDyM/gviz/tq?tqx=out:csv&sheet=Sheet1"
 
-DATE_COLUMN = 'Close'
-
-today = date.today()
-
-DATA_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRbOL-WcqCeq4dPNluZZ0SJk3aR7h0WV69sR7tLH5h6QU4TPWgqpMQ_ikKnUvOezsykoiiKn1ya-6dg/pub?output=csv"
-
-def load_data(DATA_URL):
-    data = pd.read_csv(DATA_URL)
-
-    def lowercase(x): return str(x).lower()
-    data.rename(lowercase, axis='columns', inplace=True)
+def load_data(url):
+    data = pd.read_csv(url)
+    data.columns = data.columns.str.lower()  # Convert all column names to lowercase
     return data
 
-stock_data = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRbOL-WcqCeq4dPNluZZ0SJk3aR7h0WV69sR7tLH5h6QU4TPWgqpMQ_ikKnUvOezsykoiiKn1ya-6dg/pub?output=csv")
+# Load data from Google Sheets
+tata_steel_data = load_data(DATA_URL)
 
-data = load_data(DATA_URL)
-
+# Streamlit app
 st.header("Stock Dashboard")
 
+# Tata Steel
 st.subheader("Tata Steel Share Price")
 
-if st.checkbox('Show raw data for the stock above'):
+if st.checkbox('Show raw data for Tata Steel'):
     st.subheader('Raw data')
-    st.write(data)
+    st.write(tata_steel_data)
 
-st._arrow_bar_chart(data)
+# Ensure the 'date' column is in datetime format
+tata_steel_data['date'] = pd.to_datetime(tata_steel_data['date'])
 
+# Display line chart for Tata Steel
+st.subheader("Closing Price Line Graph")
+st.line_chart(tata_steel_data.set_index('date')['close'])
 
-stock2 = pd.read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTYPBJFDhpUt73QjL3zi4CABWDbdBYUjA-e7Q8IB61pDHAh4bo32GC3TKFUl_q2AIaSUQtP4bae2zkO/pub?output=csv")
+# Display bar chart for Tata Steel
+st.subheader("Closing Price Bar Chart")
+st.bar_chart(tata_steel_data.set_index('date')['close'])
 
-data1 = load_data("https://docs.google.com/spreadsheets/d/e/2PACX-1vTYPBJFDhpUt73QjL3zi4CABWDbdBYUjA-e7Q8IB61pDHAh4bo32GC3TKFUl_q2AIaSUQtP4bae2zkO/pub?output=csv")
+# Display first and last closing prices
+first_value = tata_steel_data['close'].iloc[0]
+last_value = tata_steel_data['close'].iloc[-1]
 
-st.subheader("Reliance Power")
-
-if st.checkbox('Show raw data'):
-    st.subheader('Raw data')
-    st.write(data1)
-
-st._arrow_bar_chart(data1)
-
+st.subheader("First and Last Closing Prices")
+st.write({
+    "First Closing Price": first_value,
+    "Last Closing Price": last_value
+})
